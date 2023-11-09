@@ -19,7 +19,7 @@ function App() {
           <option value="delete">Delete</option>  
       </select>
       <label>Object</label>
-      <input type='textarea'/>
+      <textarea/>
     </main>
   )
 }
