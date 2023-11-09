@@ -15,6 +15,14 @@ main {
   width: 60%;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+}
+
 label:not(:first-child) {
   margin-top: 1rem;
 }
@@ -22,4 +30,14 @@ label:not(:first-child) {
 input[type="text"],
 select {
   height: 2rem;
+}
+
+input[type="submit"] {
+  margin-top: 2rem;
+  height: 2rem;
+}
+
+textarea {
+  height: 12rem;
+  resize: none;
 }
