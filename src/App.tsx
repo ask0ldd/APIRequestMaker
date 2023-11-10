@@ -26,7 +26,7 @@ function App() {
 
   async function sendRequest(){
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
-    console.log(form.postDatas)
+    // console.log(form.postDatas)
     let datas
 
     if(form.verb == "get") {
@@ -51,10 +51,10 @@ function App() {
           body: form.postDatas
         })
         console.log(response.status)
-        if(response.status != 200) return console.log(response.statusText)
         datas = await response.json()
+        console.log('datas : ',datas)
       }catch(error){
-        console.error(error)
+        console.log(error)
       }
     }
 
@@ -71,7 +71,22 @@ function App() {
           body: form.postDatas
         })
         console.log(response.status)
-        if(response.status != 200) return console.log(response.statusText)
+        datas = await response.json()
+        console.log('datas : ',datas)
+      }catch(error){
+        console.log(error)
+      }
+    }
+
+    if(form.verb == "delete"){
+      try{
+        const response = await fetch(url, {
+          method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
         datas = await response.json()
       }catch(error){
         console.error(error)
@@ -101,7 +116,7 @@ function App() {
         <textarea name="postDatas" onChange={handleChange}/>
         <input type="submit" value="Send this Request"/>
       </form>
-      {requestResult && <div>{requestResult}</div> }
+      {requestResult && <div className='requestResult'>{requestResult}</div> }
     </main>
   )
 }

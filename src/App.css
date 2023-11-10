@@ -30,6 +30,7 @@ label:not(:first-child) {
 input[type="text"],
 select {
   height: 2rem;
+  padding: 0 0.5rem;
 }
 
 input[type="submit"] {
@@ -40,4 +41,10 @@ input[type="submit"] {
 textarea {
   height: 12rem;
   resize: none;
+}
+
+.requestResult {
+  padding: 0 2rem;
+  width: 100%;
+  overflow-wrap: break-word;
 }
