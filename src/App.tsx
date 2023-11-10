@@ -7,10 +7,12 @@ function App() {
     baseIP: '127.0.0.1', 
     port : 9000,
     URIVar: 'users',
-    verb: '',
+    verb: 'get',
+    postDatas : ''
   }
 
   const [form, setForm] = useState<IForm>(formDefault)
+  const [requestResult, setRequestResult] = useState<string>('')
 
   function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
     const {name, value} = event.currentTarget
@@ -19,11 +21,39 @@ function App() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     event.preventDefault()
-    console.log('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar)
+    /*console.log('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar)
     // fetch('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar).then(response => response.json()).then(json => console.log(json))
     const response = await fetch('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar);
     const users = await response.json();
     console.log(users)
+    setRequestResult(JSON.stringify(users))*/
+    sendRequest()
+  }
+
+  async function sendRequest(){
+    const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
+    let datas
+
+    if(form.verb == "get") {
+      const response = await fetch(url)
+      datas = await response.json()
+    }
+
+    if(form.verb == "post") {
+      const response = await fetch(url, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        // credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form.postDatas),
+      })
+      datas = await response.json()
+    }
+
+    if(datas?.length > 0) setRequestResult(JSON.stringify(datas))
   }
 
   return (
@@ -43,9 +73,10 @@ function App() {
             <option value="delete">Delete</option>  
         </select>
         <label>Object</label>
-        <textarea/>
+        <textarea onChange={handleChange}/>
         <input type="submit" value="Send this Request"/>
       </form>
+      {requestResult && <div>{requestResult}</div> }
     </main>
   )
 }
@@ -57,4 +88,5 @@ interface IForm{
   port: number
   URIVar: string
   verb: string
+  postDatas : string
 }
