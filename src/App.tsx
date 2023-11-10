@@ -63,16 +63,15 @@ function App() {
         const response = await fetch(url, {
           method: "PUT",
           mode: "cors",
-          /*cache: "no-cache",
-          credentials: "same-origin",*/
           headers: {
             "Content-Type": "application/json",
           },
           body: form.postDatas
         })
-        console.log(response.status)
-        datas = await response.json()
-        console.log('datas : ',datas)
+        if(response.status !== 200) return console.log(response.statusText)
+        datas = await response.text()
+        if(datas?.length > 0) return console.log('datas : ', datas)
+        console.log("Target not found.")
       }catch(error){
         console.log(error)
       }
@@ -87,7 +86,9 @@ function App() {
             "Content-Type": "application/json",
           },
         })
-        datas = await response.json()
+        datas = await response.text()
+        if(response.status !== 200) return console.log(response.statusText)
+        console.log(datas)
       }catch(error){
         console.error(error)
       }
