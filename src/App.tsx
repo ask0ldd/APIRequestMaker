@@ -21,39 +21,42 @@ function App() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     event.preventDefault()
-    /*console.log('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar)
-    // fetch('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar).then(response => response.json()).then(json => console.log(json))
-    const response = await fetch('http://' + form.baseIP + ':' + form.port + '/' + form.URIVar);
-    const users = await response.json();
-    console.log(users)
-    setRequestResult(JSON.stringify(users))*/
     sendRequest()
   }
 
   async function sendRequest(){
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
+    console.log(form.postDatas)
     let datas
 
     if(form.verb == "get") {
-      const response = await fetch(url)
-      datas = await response.json()
+      try{
+        const response = await fetch(url)
+        datas = await response.json()
+      }catch(error){
+        console.error(error)
+      }
     }
 
     if(form.verb == "post") {
-      const response = await fetch(url, {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        // credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form.postDatas),
-      })
-      datas = await response.json()
+      try{
+        const response = await fetch(url, {
+          method: "POST",
+          mode: "cors",
+          /*cache: "no-cache",
+          credentials: "same-origin",*/
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: form.postDatas
+        })
+        datas = await response.json()
+      }catch(error){
+        console.error(error)
+      }
     }
 
-    if(datas?.length > 0) setRequestResult(JSON.stringify(datas))
+    if(datas) setRequestResult(JSON.stringify(datas))
   }
 
   return (
@@ -66,14 +69,14 @@ function App() {
         <label htmlFor="URIVar">URI + Vars</label>
         <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/>
         <label>Method</label>
-        <select onChange={handleChange}>
+        <select name="verb" onChange={handleChange}>
             <option value="get">Get</option>
             <option value="post">Post</option>
             <option value="update">Update</option>
             <option value="delete">Delete</option>  
         </select>
         <label>Object</label>
-        <textarea onChange={handleChange}/>
+        <textarea name="postDatas" onChange={handleChange}/>
         <input type="submit" value="Send this Request"/>
       </form>
       {requestResult && <div>{requestResult}</div> }
