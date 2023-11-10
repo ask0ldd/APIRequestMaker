@@ -50,6 +50,28 @@ function App() {
           },
           body: form.postDatas
         })
+        console.log(response.status)
+        if(response.status != 200) return console.log(response.statusText)
+        datas = await response.json()
+      }catch(error){
+        console.error(error)
+      }
+    }
+
+    if(form.verb == "update") {
+      try{
+        const response = await fetch(url, {
+          method: "PUT",
+          mode: "cors",
+          /*cache: "no-cache",
+          credentials: "same-origin",*/
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: form.postDatas
+        })
+        console.log(response.status)
+        if(response.status != 200) return console.log(response.statusText)
         datas = await response.json()
       }catch(error){
         console.error(error)
