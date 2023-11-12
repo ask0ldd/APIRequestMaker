@@ -48,3 +48,33 @@ textarea {
   width: 100%;
   overflow-wrap: break-word;
 }
+
+.inputButtonContainer {
+  display: flex;
+  column-gap: 0.5rem;
+}
+
+.inputButtonContainer input {
+  flex: 1;
+}
+
+.inputButtonContainer button {
+  flex-grow: 0;
+  height: 2rem;
+  background-color: white;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+}
+
+li.uriList {
+  height: 2rem;
+  padding: 0 0.5rem;
+}
+
+ul.uriListContainer {
+  display: flex;
+  flex-direction: column;
+}

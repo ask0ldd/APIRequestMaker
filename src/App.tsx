@@ -13,6 +13,7 @@ function App() {
 
   const [form, setForm] = useState<IForm>(formDefault)
   const [requestResult, setRequestResult] = useState<string>('')
+  const [savedURI, setSavedURI] = useState<string[]>([])
 
   function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
     const {name, value} = event.currentTarget
@@ -22,6 +23,12 @@ function App() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     event.preventDefault()
     sendRequest()
+  }
+
+  function saveURI(event: React.FormEvent<HTMLButtonElement>){
+    event.preventDefault()
+    const input = event.currentTarget.previousSibling as HTMLInputElement
+    if(!savedURI.includes(input.value)) setSavedURI([...savedURI, input.value])
   }
 
   async function sendRequest(){
@@ -34,7 +41,7 @@ function App() {
         const response = await fetch(url)
         datas = await response.json()
       }catch(error){
-        console.error(error)
+        console.log(error)
       }
     }
 
@@ -43,13 +50,12 @@ function App() {
         const response = await fetch(url, {
           method: "POST",
           mode: "cors",
-          /*cache: "no-cache",
-          credentials: "same-origin",*/
           headers: {
             "Content-Type": "application/json",
           },
           body: form.postDatas
         })
+        if(response.status !== 200) return console.log(response.statusText)
         console.log(response.status)
         datas = await response.json()
         console.log('datas : ',datas)
@@ -90,7 +96,7 @@ function App() {
         if(response.status !== 200) return console.log(response.statusText)
         console.log(datas)
       }catch(error){
-        console.error(error)
+        console.log(error)
       }
     }
 
@@ -105,7 +111,12 @@ function App() {
         <label htmlFor="port">Port</label>
         <input name="port" onChange={handleChange} type="text" value={form.port}/>
         <label htmlFor="URIVar">URI + Vars</label>
-        <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/>
+        <div className='inputButtonContainer'><input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button></div>
+        <ul className='uriListContainer'>
+          {
+            savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList'>{uri}</li>))
+          }
+        </ul>
         <label>Method</label>
         <select name="verb" onChange={handleChange}>
             <option value="get">Get</option>
@@ -117,7 +128,7 @@ function App() {
         <textarea name="postDatas" onChange={handleChange}/>
         <input type="submit" value="Send this Request"/>
       </form>
-      {requestResult && <div className='requestResult'>{requestResult}</div> }
+      { requestResult && <div className='requestResult'>{requestResult}</div> }
     </main>
   )
 }
