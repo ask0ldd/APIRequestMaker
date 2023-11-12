@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   padding: 0;
@@ -12,7 +12,13 @@ main {
   flex-direction: column;
   margin: 0 auto;
   padding: 2rem;
-  width: 60%;
+  width: 100%;
+}
+
+.formnResultsContainer {
+  display: flex;
+  width: 100%;
+  column-gap: 1rem;
 }
 
 form {
@@ -22,11 +28,28 @@ form {
   padding: 2rem;
   width: 100%;
   background: linear-gradient(to bottom, #f3faff 0%, #e1f3ff 100%);
-  border: 2px solid #ffffffdd;
+  border: 1px solid #ffffffdd;
+  min-width: 50%;
+  max-width: 50%;
+}
+
+.requestResult {
+  flex-shrink: 1;
+  padding: 2rem;
+  background: linear-gradient(to bottom, #364550 0%, #1e2b33 100%);
+  border: 1px solid #ffffffdd;
+  width: 50%;
+  overflow-wrap: break-word;
+  color: #ffffffcc;
+  box-shadow: inset 0px 8px 16px #00000088;
 }
 
 label:not(:first-child) {
   margin-top: 1rem;
+}
+
+label {
+  margin-bottom: 0.4em;
 }
 
 form input[type="text"],
@@ -43,35 +66,25 @@ select {
   margin-top: 0.325rem;
 }
 
-input[type="submit"] {
-  margin-top: 2rem;
-  height: 2rem;
-}
-
 textarea {
   height: 12rem;
   resize: none;
 }
 
-.requestResult {
-  padding: 0 2rem;
-  width: 100%;
-  overflow-wrap: break-word;
-}
-
 .inputButtonContainer {
   display: flex;
   column-gap: 0.5rem;
+  height: 35px;
 }
 
-.inputButtonContainer input {
+form .inputButtonContainer input {
   flex: 1;
+  margin-top: 0;
 }
 
 .inputButtonContainer button {
   flex-grow: 0;
   height: 35px;
-  background-color: white;
   border-radius: 0;
   display: flex;
   justify-content: center;
@@ -82,9 +95,18 @@ textarea {
 li.uriList {
   padding: 0.35em 0.4em 0.4em 0.4em;
   cursor: pointer;
+  background: linear-gradient(to bottom, #e7f5ff 0%, #cdebff 100%);
+  border: 1px solid #add1e9;
+  margin-bottom: 0.5rem;
 }
 
 ul.uriListContainer {
   display: flex;
   flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+form input[type="submit"] {
+  margin-top: 2rem;
+  padding: 0.35em 0.4em 0.4em 0.4em;
 }

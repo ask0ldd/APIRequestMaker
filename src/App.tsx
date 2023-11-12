@@ -35,6 +35,7 @@ function App() {
     event.preventDefault()
     const uriInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
     uriInput.value = (event.currentTarget as HTMLElement).innerHTML
+    setForm({...form, URIVar : (event.currentTarget as HTMLElement).innerHTML})
   }
 
   async function sendRequest(){
@@ -111,32 +112,34 @@ function App() {
 
   return (
     <main>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='baseIP'>Base IP</label>
-        <input name="baseIP" onChange={handleChange} type="text" value={form.baseIP}/>
-        <label htmlFor="port">Port</label>
-        <input name="port" onChange={handleChange} type="text" value={form.port}/>
-        <label htmlFor="URIVar">URI + Vars</label>
-        <div className='inputButtonContainer'>
-          <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button>
-        </div>
-        <ul className='uriListContainer'>
-          {
-            savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList' onClick={setUriAsActive}>{uri}</li>))
-          }
-        </ul>
-        <label>Method</label>
-        <select name="verb" onChange={handleChange}>
-            <option value="get">Get</option>
-            <option value="post">Post</option>
-            <option value="update">Update</option>
-            <option value="delete">Delete</option>  
-        </select>
-        <label>Object</label>
-        <textarea name="postDatas" onChange={handleChange}/>
-        <input type="submit" value="Send this Request"/>
-      </form>
-      { requestResult && <div className='requestResult'>{requestResult}</div> }
+      <div className='formnResultsContainer'>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor='baseIP'>Base IP</label>
+          <input name="baseIP" onChange={handleChange} type="text" value={form.baseIP}/>
+          <label htmlFor="port">Port</label>
+          <input name="port" onChange={handleChange} type="text" value={form.port}/>
+          <label htmlFor="URIVar">URI + Vars</label>
+          <div className='inputButtonContainer'>
+            <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button>
+          </div>
+          <ul className='uriListContainer'>
+            {
+              savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList' onClick={setUriAsActive}>{uri}</li>))
+            }
+          </ul>
+          <label>Method</label>
+          <select name="verb" onChange={handleChange}>
+              <option value="get">Get</option>
+              <option value="post">Post</option>
+              <option value="update">Update</option>
+              <option value="delete">Delete</option>  
+          </select>
+          <label>Object</label>
+          <textarea name="postDatas" onChange={handleChange}/>
+          <input type="submit" value="Send this Request"/>
+        </form>
+        { requestResult && <div className='requestResult'>{requestResult}</div> }
+      </div>
     </main>
   )
 }
