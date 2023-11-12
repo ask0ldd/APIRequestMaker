@@ -29,10 +29,18 @@ label:not(:first-child) {
   margin-top: 1rem;
 }
 
-input[type="text"],
+form input[type="text"],
+form input[type="number"],
 select {
-  height: 2rem;
-  padding: 0 0.5rem;
+  /*border: 1px solid #c5c5c5;*/
+  border: 1px solid #4688d344;
+  background: #ffffff;
+  padding: 0.35em 0.4em 0.4em 0.4em;
+  color: #264f81bb;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+  /*font-family: Arial, Helvetica, sans-serif;*/
+  margin-top: 0.325rem;
 }
 
 input[type="submit"] {
@@ -62,18 +70,18 @@ textarea {
 
 .inputButtonContainer button {
   flex-grow: 0;
-  height: 2rem;
+  height: 35px;
   background-color: white;
   border-radius: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 2rem;
+  width: 35px;
 }
 
 li.uriList {
-  height: 2rem;
-  padding: 0 0.5rem;
+  padding: 0.35em 0.4em 0.4em 0.4em;
+  cursor: pointer;
 }
 
 ul.uriListContainer {
