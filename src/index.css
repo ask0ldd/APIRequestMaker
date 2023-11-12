@@ -19,7 +19,6 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -27,7 +26,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+  color: #264f81bb;
 }
 
 a {
@@ -45,7 +46,8 @@ body {
   flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
-  background-color: rgb(164, 167, 177);
+  background-color: #dbe8f1;
+  font-family: "Jost", sans-serif;
 }
 
 h1 {
@@ -53,27 +55,30 @@ h1 {
   line-height: 1.1;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+button,
+form input[type="submit"] {
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  border: none;
+  background: linear-gradient(to bottom, #4a98f1 0%, #4688d3cc 100%);
+  border: 1px solid #57a5ff;
+  box-shadow: 0 8px 16px #4688d366, 0 16px 32px #4688d333;
+  color: #ffffff;
 }
 
 input,
-select,
+select {
+  font-family: "Jost", sans-serif;
+}
+
 textarea {
-  font-family: "Montserrat", sans-serif;
+  border: 1px solid #4688d344;
+  background: #ffffff;
+  padding: 0.35em 0.4em 0.4em 0.4em;
+  color: #264f81bb;
+  font-family: "Jost", sans-serif;
+  font-size: 1rem;
+}
+
+input {
+  font-size: 1rem;
 }

@@ -21,6 +21,8 @@ form {
   margin: 0 auto;
   padding: 2rem;
   width: 100%;
+  background: linear-gradient(to bottom, #f3faff 0%, #e1f3ff 100%);
+  border: 2px solid #ffffffdd;
 }
 
 label:not(:first-child) {
