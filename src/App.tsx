@@ -31,6 +31,12 @@ function App() {
     if(!savedURI.includes(input.value)) setSavedURI([...savedURI, input.value])
   }
 
+  function setUriAsActive(event: React.FormEvent<HTMLElement>){
+    event.preventDefault()
+    const uriInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
+    uriInput.value = (event.currentTarget as HTMLElement).innerHTML
+  }
+
   async function sendRequest(){
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
     // console.log(form.postDatas)
@@ -111,10 +117,12 @@ function App() {
         <label htmlFor="port">Port</label>
         <input name="port" onChange={handleChange} type="text" value={form.port}/>
         <label htmlFor="URIVar">URI + Vars</label>
-        <div className='inputButtonContainer'><input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button></div>
+        <div className='inputButtonContainer'>
+          <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button>
+        </div>
         <ul className='uriListContainer'>
           {
-            savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList'>{uri}</li>))
+            savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList' onClick={setUriAsActive}>{uri}</li>))
           }
         </ul>
         <label>Method</label>
