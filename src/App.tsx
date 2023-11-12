@@ -22,7 +22,8 @@ function App() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
     event.preventDefault()
-    sendRequest()
+    const datas = await sendRequest()
+    if(datas) setRequestResult(datas)
   }
 
   function saveURI(event: React.FormEvent<HTMLButtonElement>){
@@ -107,7 +108,8 @@ function App() {
       }
     }
 
-    if(datas) setRequestResult(JSON.stringify(datas))
+    // if(datas) setRequestResult(JSON.stringify(datas))
+    if(datas) return(JSON.stringify(datas))
   }
 
   return (
