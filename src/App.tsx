@@ -15,31 +15,50 @@ function App() {
   const [requestResult, setRequestResult] = useState<string>('')
   const [savedURI, setSavedURI] = useState<string[]>([])
 
-  function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>){
+  function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) : void{
     const {name, value} = event.currentTarget
     setForm({...form, [name] : value})
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) : Promise<void>{
     event.preventDefault()
-    const datas = await sendRequest()
+    const datas = await sendRequest(form)
     if(datas) setRequestResult(datas)
   }
 
-  function saveURI(event: React.FormEvent<HTMLButtonElement>){
+  function saveURI(event: React.FormEvent<HTMLButtonElement>) : void{
     event.preventDefault()
     const input = event.currentTarget.previousSibling as HTMLInputElement
     if(!savedURI.includes(input.value)) setSavedURI([...savedURI, input.value])
   }
 
-  function setUriAsActive(event: React.FormEvent<HTMLElement>){
+  function setUriAsActive(event: React.FormEvent<HTMLElement>) : void{
     event.preventDefault()
     const uriInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
     uriInput.value = (event.currentTarget as HTMLElement).innerHTML
     setForm({...form, URIVar : (event.currentTarget as HTMLElement).innerHTML})
   }
 
-  async function sendRequest(){
+  /*async function sendRequestV2(form : IForm) : Promise<string> {
+    const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
+    const body = (form.verb == "delete" || form.verb == "get") ? "" : form.postDatas
+    const requestDetails = {...baseRequest, method : form.verb.toUpperCase(), body : body}
+    
+    try{
+      const response = await fetch(url, requestDetails as RequestInit)
+      if(response.ok) return(JSON.stringify(await response.json()))
+      const message = await response.text()
+      if(message) return message
+      return "This " + form.verb.toUpperCase() + " request failed."
+    }catch(error){
+      console.error(error)
+      return "This " + form.verb.toUpperCase() + " request failed."
+    }
+
+    return "Unknown Request."
+  }*/
+
+  async function sendRequest(form : IForm) : Promise<string> {
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
     // console.log(form.postDatas)
 
@@ -76,7 +95,7 @@ function App() {
       }
     }
 
-    if(form.verb == "update") {
+    if(form.verb == "put") {
       try{
         const response = await fetch(url, {
           method: "PUT",
@@ -113,6 +132,8 @@ function App() {
       }
     }
 
+    return "Unknown Request."
+
   }
 
   return (
@@ -136,14 +157,14 @@ function App() {
           <select name="verb" onChange={handleChange}>
               <option value="get">Get</option>
               <option value="post">Post</option>
-              <option value="update">Update</option>
+              <option value="put">Update</option>
               <option value="delete">Delete</option>  
           </select>
           <label>Object</label>
           <textarea name="postDatas" onChange={handleChange}/>
           <input type="submit" value="Send this Request"/>
         </form>
-        { requestResult && <div className='requestResult'>{requestResult}</div> }
+        <div className='requestResult'>{requestResult && requestResult}</div>
       </div>
     </main>
   )
@@ -158,3 +179,11 @@ interface IForm{
   verb: string
   postDatas : string
 }
+
+/*const baseRequest = {
+  method: "",
+  mode: "cors",
+  headers: {
+    "Content-Type": "application/json",
+  },
+}*/
