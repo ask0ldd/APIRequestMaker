@@ -120,6 +120,8 @@ li.uriList {
   cursor: pointer;
   background: linear-gradient(to bottom, #e7f5ff 0%, #cdebff 100%);
   border: 1px solid #add1e9;
+  justify-content: space-between;
+  display: flex;
 }
 
 li.uriList:not(:last-child) {

@@ -13,7 +13,7 @@ function App() {
 
   const [form, setForm] = useState<IForm>(formDefault)
   const [requestResult, setRequestResult] = useState<string>('')
-  const [savedURI, setSavedURI] = useState<string[]>([])
+  const [savedRequests, setSavedRequests] = useState<IRequest[]>([])
 
   function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) : void{
     const {name, value} = event.currentTarget
@@ -26,13 +26,16 @@ function App() {
     if(datas) setRequestResult(datas)
   }
 
-  function saveURI(event: React.FormEvent<HTMLButtonElement>) : void{
+  function saveRequest(event: React.FormEvent<HTMLButtonElement>) : void{
     event.preventDefault()
-    const input = event.currentTarget.previousSibling as HTMLInputElement
-    if(!savedURI.includes(input.value)) setSavedURI([...savedURI, input.value])
+    const endpointInput = event.currentTarget.previousSibling as HTMLInputElement
+    const verbInput = document.querySelector('[name="verb"]') as HTMLInputElement
+    if(endpointInput.value == "" || verbInput.value == "") return
+    const requestExists = savedRequests.find(request => JSON.stringify(request) == JSON.stringify({endpoint : endpointInput.value, verb : verbInput.value})) != null
+    if(!requestExists && ['put', 'delete', 'get', 'post'].includes(verbInput.value)) setSavedRequests([...savedRequests, {endpoint : endpointInput.value, verb : verbInput.value as IRequest["verb"]} ])
   }
 
-  function setUriAsActive(event: React.FormEvent<HTMLElement>) : void{
+  function setRequestAsActive(event: React.FormEvent<HTMLElement>) : void{
     event.preventDefault()
     const uriInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
     uriInput.value = (event.currentTarget as HTMLElement).innerHTML
@@ -146,11 +149,11 @@ function App() {
           <input name="port" onChange={handleChange} type="text" value={form.port}/>
           <label htmlFor="URIVar">URI + Vars</label>
           <div className='inputButtonContainer'>
-            <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveURI}>+</button>
+            <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveRequest}>+</button>
           </div>
           <ul className='uriListContainer'>
             {
-              savedURI.map((uri, index) => (<li key={'uri'+index} className='uriList' onClick={setUriAsActive}>{uri}</li>))
+              savedRequests.map((request, index) => (<li key={'uri'+index} className='uriList' onClick={setRequestAsActive}><span>{request.endpoint}</span><span>{request.verb}</span></li>))
             }
           </ul>
           <label>Method</label>
@@ -178,6 +181,11 @@ interface IForm{
   URIVar: string
   verb: string
   postDatas : string
+}
+
+interface IRequest{
+  verb: "get" | "put" | "delete" | "post",
+  endpoint: string
 }
 
 /*const baseRequest = {
