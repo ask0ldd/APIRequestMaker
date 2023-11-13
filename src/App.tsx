@@ -42,14 +42,14 @@ function App() {
   async function sendRequest(){
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
     // console.log(form.postDatas)
-    let datas
 
     if(form.verb == "get") {
       try{
         const response = await fetch(url)
-        datas = await response.json()
+        if(response.ok) return(JSON.stringify(await response.json()))
       }catch(error){
-        console.log(error)
+        console.error(error)
+        return "Can't find the request User."
       }
     }
 
@@ -63,12 +63,11 @@ function App() {
           },
           body: form.postDatas
         })
-        if(response.status !== 200) return console.log(response.statusText)
-        console.log(response.status)
-        datas = await response.json()
-        console.log('datas : ',datas)
+        if(response.ok) return(JSON.stringify(await response.json()))
+        // console.log('datas : ', datas)
       }catch(error){
-        console.log(error)
+        console.error(error)
+        return "Can't create the request User."
       }
     }
 
@@ -82,15 +81,14 @@ function App() {
           },
           body: form.postDatas
         })
-        if(response.status !== 200) return console.log(response.statusText)
-        datas = await response.text()
-        if(datas?.length > 0) return console.log('datas : ', datas)
-        console.log("Target not found.")
+        if(response.ok) return(JSON.stringify(await response.json()))
+        return response.text()
       }catch(error){
         console.log(error)
+        return "Can't update the request User."
       }
     }
-
+/*
     if(form.verb == "delete"){
       try{
         const response = await fetch(url, {
@@ -105,11 +103,12 @@ function App() {
         console.log(datas)
       }catch(error){
         console.log(error)
+        return JSON.stringify(error)
       }
-    }
+    }*/
 
     // if(datas) setRequestResult(JSON.stringify(datas))
-    if(datas) return(JSON.stringify(datas))
+
   }
 
   return (
