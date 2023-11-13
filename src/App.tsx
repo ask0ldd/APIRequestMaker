@@ -47,10 +47,12 @@ function App() {
       try{
         const response = await fetch(url)
         if(response.ok) return(JSON.stringify(await response.json()))
-        return "Can't find the request User."
+        const message = await response.text()
+        if(message) return message
+        return "This GET request failed."
       }catch(error){
         console.error(error)
-        return "Can't find the request User."
+        return "This GET request failed."
       }
     }
 
@@ -65,10 +67,12 @@ function App() {
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
-        return "Can't create the request User."
+        const message = await response.text()
+        if(message) return message
+        return "This POST request failed."
       }catch(error){
         console.error(error)
-        return "Can't create the request User."
+        return "This POST request failed."
       }
     }
 
@@ -83,10 +87,12 @@ function App() {
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
-        return response.text()
+        const message = await response.text()
+        if(message) return message
+        return "This UPDATE request failed."
       }catch(error){
         console.log(error)
-        return "Can't update the request User."
+        return "This UPDATE request failed."
       }
     }
 
