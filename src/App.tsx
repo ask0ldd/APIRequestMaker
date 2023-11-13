@@ -47,6 +47,7 @@ function App() {
       try{
         const response = await fetch(url)
         if(response.ok) return(JSON.stringify(await response.json()))
+        return "Can't find the request User."
       }catch(error){
         console.error(error)
         return "Can't find the request User."
@@ -64,7 +65,7 @@ function App() {
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
-        // console.log('datas : ', datas)
+        return "Can't create the request User."
       }catch(error){
         console.error(error)
         return "Can't create the request User."
@@ -88,7 +89,7 @@ function App() {
         return "Can't update the request User."
       }
     }
-/*
+
     if(form.verb == "delete"){
       try{
         const response = await fetch(url, {
@@ -98,16 +99,13 @@ function App() {
             "Content-Type": "application/json",
           },
         })
-        datas = await response.text()
-        if(response.status !== 200) return console.log(response.statusText)
-        console.log(datas)
+        if(response.ok) return("User deleted successfully.")
+        return "Can't delete the request User."
       }catch(error){
         console.log(error)
-        return JSON.stringify(error)
+        return "Can't delete the request User."
       }
-    }*/
-
-    // if(datas) setRequestResult(JSON.stringify(datas))
+    }
 
   }
 
