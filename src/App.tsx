@@ -31,15 +31,17 @@ function App() {
     const endpointInput = event.currentTarget.previousSibling as HTMLInputElement
     const verbInput = document.querySelector('[name="verb"]') as HTMLInputElement
     if(endpointInput.value == "" || verbInput.value == "") return
-    const requestExists = savedRequests.find(request => JSON.stringify(request) == JSON.stringify({endpoint : endpointInput.value, verb : verbInput.value})) != null
-    if(!requestExists && ['put', 'delete', 'get', 'post'].includes(verbInput.value)) setSavedRequests([...savedRequests, {endpoint : endpointInput.value, verb : verbInput.value as IRequest["verb"]} ])
+    if(savedRequests.find(request => JSON.stringify(request) == JSON.stringify({endpoint : endpointInput.value, verb : verbInput.value})) != null) return
+    if(['put', 'delete', 'get', 'post'].includes(verbInput.value)) setSavedRequests([...savedRequests, {endpoint : endpointInput.value, verb : verbInput.value.toUpperCase() as IRequest["verb"]} ])
   }
 
   function setRequestAsActive(event: React.FormEvent<HTMLElement>) : void{
     event.preventDefault()
-    const uriInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
-    uriInput.value = (event.currentTarget as HTMLElement).innerHTML
-    setForm({...form, URIVar : (event.currentTarget as HTMLElement).innerHTML})
+    const endpointInput = document.querySelector('[name="URIVar"]') as HTMLInputElement
+    const verbInput = document.querySelector('[name="verb"]') as HTMLSelectElement
+    endpointInput.value = (event.currentTarget.querySelector('.listItemEndpoint') as HTMLElement).innerHTML
+    verbInput.value = (event.currentTarget.querySelector('.listItemVerb') as HTMLElement).innerHTML.toLowerCase()
+    setForm({...form, URIVar : endpointInput.value, verb : verbInput.value.toLowerCase()})
   }
 
   /*async function sendRequestV2(form : IForm) : Promise<string> {
@@ -153,7 +155,7 @@ function App() {
           </div>
           <ul className='uriListContainer'>
             {
-              savedRequests.map((request, index) => (<li key={'uri'+index} className='uriList' onClick={setRequestAsActive}><span>{request.endpoint}</span><span>{request.verb}</span></li>))
+              savedRequests.map((request, index) => (<li key={'uri'+index} className='uriList' onClick={setRequestAsActive}><span className='listItemEndpoint'>{request.endpoint}</span><span className='listItemVerb'>{request.verb}</span></li>))
             }
           </ul>
           <label>Method</label>
@@ -184,7 +186,7 @@ interface IForm{
 }
 
 interface IRequest{
-  verb: "get" | "put" | "delete" | "post",
+  verb: "GET" | "PUT" | "DELETE" | "POST",
   endpoint: string
 }
 
