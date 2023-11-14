@@ -31,8 +31,8 @@ function App() {
     const endpointInput = event.currentTarget.previousSibling as HTMLInputElement
     const verbInput = document.querySelector('[name="verb"]') as HTMLInputElement
     if(endpointInput.value == "" || verbInput.value == "") return
-    if(savedRequests.find(request => JSON.stringify(request) == JSON.stringify({endpoint : endpointInput.value, verb : verbInput.value})) != null) return
-    if(['put', 'delete', 'get', 'post'].includes(verbInput.value)) setSavedRequests([...savedRequests, {endpoint : endpointInput.value, verb : verbInput.value.toUpperCase() as IRequest["verb"]} ])
+    if(savedRequests.find(request => JSON.stringify(request) == JSON.stringify({endpoint: endpointInput.value, verb: verbInput.value.toUpperCase()})) != null) return
+    if(['put', 'delete', 'get', 'post'].includes(verbInput.value)) setSavedRequests([...savedRequests /* replace with previous state*/, {endpoint: endpointInput.value, verb: verbInput.value.toUpperCase() as IRequest["verb"]} ])
   }
 
   function setRequestAsActive(event: React.FormEvent<HTMLElement>) : void{
@@ -43,25 +43,6 @@ function App() {
     verbInput.value = (event.currentTarget.querySelector('.listItemVerb') as HTMLElement).innerHTML.toLowerCase()
     setForm({...form, URIVar : endpointInput.value, verb : verbInput.value.toLowerCase()})
   }
-
-  /*async function sendRequestV2(form : IForm) : Promise<string> {
-    const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
-    const body = (form.verb == "delete" || form.verb == "get") ? "" : form.postDatas
-    const requestDetails = {...baseRequest, method : form.verb.toUpperCase(), body : body}
-    
-    try{
-      const response = await fetch(url, requestDetails as RequestInit)
-      if(response.ok) return(JSON.stringify(await response.json()))
-      const message = await response.text()
-      if(message) return message
-      return "This " + form.verb.toUpperCase() + " request failed."
-    }catch(error){
-      console.error(error)
-      return "This " + form.verb.toUpperCase() + " request failed."
-    }
-
-    return "Unknown Request."
-  }*/
 
   async function sendRequest(form : IForm) : Promise<string> {
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
@@ -153,11 +134,11 @@ function App() {
           <div className='inputButtonContainer'>
             <input name="URIVar" onChange={handleChange} type="text" value={form.URIVar}/><button onClick={saveRequest}>+</button>
           </div>
-          <ul className='uriListContainer'>
+          {savedRequests.length > 0 && <ul className='uriListContainer'>
             {
               savedRequests.map((request, index) => (<li key={'uri'+index} className='uriList' onClick={setRequestAsActive}><span className='listItemEndpoint'>{request.endpoint}</span><span className='listItemVerb'>{request.verb}</span></li>))
             }
-          </ul>
+          </ul>}
           <label>Method</label>
           <select name="verb" onChange={handleChange}>
               <option value="get">Get</option>
@@ -196,4 +177,24 @@ interface IRequest{
   headers: {
     "Content-Type": "application/json",
   },
+}*/
+
+
+/*async function sendRequestV2(form : IForm) : Promise<string> {
+  const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
+  const body = (form.verb == "delete" || form.verb == "get") ? "" : form.postDatas
+  const requestDetails = {...baseRequest, method : form.verb.toUpperCase(), body : body}
+  
+  try{
+    const response = await fetch(url, requestDetails as RequestInit)
+    if(response.ok) return(JSON.stringify(await response.json()))
+    const message = await response.text()
+    if(message) return message
+    return "This " + form.verb.toUpperCase() + " request failed."
+  }catch(error){
+    console.error(error)
+    return "This " + form.verb.toUpperCase() + " request failed."
+  }
+
+  return "Unknown Request."
 }*/
