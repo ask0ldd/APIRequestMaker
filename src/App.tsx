@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import Login from './components/Login'
 
 function App() {
 
@@ -124,6 +125,7 @@ function App() {
 
   return (
     <main>
+      <Login/>
       <div className='formnResultsContainer'>
         <form onSubmit={handleSubmit}>
           <label htmlFor='baseIP'>Base IP</label>

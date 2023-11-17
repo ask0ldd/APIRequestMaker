@@ -21,6 +21,7 @@ main {
   margin: 0 auto;
   padding: 2rem;
   width: 100%;
+  row-gap: 2rem;
 }
 
 .formnResultsContainer {
@@ -72,6 +73,7 @@ label {
 
 form input[type="text"],
 form input[type="number"],
+form input[type="password"],
 select {
   border: 1px solid #4688d344;
   background: #ffffff;
