@@ -10,4 +10,12 @@
   );
   border: 1px solid #ffffffdd;
   box-shadow: 0 8px 16px #a5bad188;
+  max-width: none;
+  align-items: center;
+}
+
+.loginContainer input {
+  max-width: 50%;
+  width: 50%;
+  flex-shrink: 0;
 }
