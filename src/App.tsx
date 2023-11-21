@@ -9,7 +9,8 @@ function App() {
     port : 9000,
     URIVar: 'users',
     verb: 'get',
-    postDatas : ''
+    postDatas : '',
+    token : ''
   }
 
   const [form, setForm] = useState<IForm>(formDefault)
@@ -148,6 +149,8 @@ function App() {
               <option value="put">Update</option>
               <option value="delete">Delete</option>  
           </select>
+          <label htmlFor="token">Token</label>
+          <input name="token" onChange={handleChange} type="text" value={form.token}/>
           <label>Object</label>
           <textarea name="postDatas" onChange={handleChange}/>
           <input type="submit" value="Send this Request"/>
@@ -165,7 +168,8 @@ interface IForm{
   port: number
   URIVar: string
   verb: string
-  postDatas : string
+  postDatas : string,
+  token : string,
 }
 
 interface IRequest{

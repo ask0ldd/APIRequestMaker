@@ -24,23 +24,31 @@ function Login(){
         event.preventDefault()
         const login = credentials[0]
         const password = credentials[1]
-        const credentialsB64 = btoa(login + ':' + password)
+        // const credentialsB64 = btoa(login + ':' + password)
         try{
-            const response = await fetch("127.0.0.1:9000/token", {
+            const response = await fetch("http://127.0.0.1:9000/auth/login", {
             method: "POST",
-            mode: "cors",
+            // mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic "+ credentialsB64
-            }
+                // "Authorization": "Basic "+ credentialsB64
+            },
+            body: JSON.stringify({
+                "username" : login,
+                "password" : password
             })
-            if(response.ok) return(JSON.stringify(await response.json()))
+            })
+            if(response.ok) {
+                const responseObj = await response.json()
+                console.log(responseObj)
+                return(responseObj)
+            }
             const message = await response.text()
             if(message) return console.log(message)
-            return console.log("This POST request failed.")
+            return console.log("LOGIN request failed.")
         }catch(error){
             console.error(error)
-            return console.log("This POST request failed.")
+            return console.log("LOGIN request failed.")
         }
       
     }
