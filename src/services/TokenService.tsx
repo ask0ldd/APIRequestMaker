@@ -1,7 +1,7 @@
 class TokenService {
     public static setToken(userId : number, token : string) : void {
         document.cookie = `id=${userId}; Secure`
-        document.cookie = `token=${ token}; Secure`
+        document.cookie = `token=${token}; Secure`
     }
 
     public static isTokenAlive() : boolean {
@@ -9,10 +9,10 @@ class TokenService {
         return cookie.search("token")===-1 ? false : true
     }
 
-    public static getToken() : string | null
+    public static getToken() : string
     {   
         const token = document.cookie.split('; ').find((cookie) => cookie.startsWith('token='))?.split('=')[1]
-        return token !== undefined ? token : null
+        return token !== undefined ? token : ''
     }
 }
 

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './App.css'
 import Login from './components/Login'
+import '../src/services/TokenService'
+import TokenService from '../src/services/TokenService'
 
 function App() {
 
@@ -52,7 +54,19 @@ function App() {
 
     if(form.verb == "get") {
       try{
-        const response = await fetch(url)
+        const token = TokenService.getToken()
+        console.log('token : ', token)
+        const response = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          headers: token == "" ? {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer "+ credentialsB64
+          }:{
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+          },
+        })
         if(response.ok) return(JSON.stringify(await response.json()))
         const message = await response.text()
         if(message) return message
@@ -65,11 +79,17 @@ function App() {
 
     if(form.verb == "post") {
       try{
+        const token = TokenService.getToken()
+        console.log('token : ', token)
         const response = await fetch(url, {
           method: "POST",
           mode: "cors",
-          headers: {
+          headers: token == "" ? {
             "Content-Type": "application/json",
+            // "Authorization": "Bearer "+ credentialsB64
+          }:{
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
           },
           body: form.postDatas
         })

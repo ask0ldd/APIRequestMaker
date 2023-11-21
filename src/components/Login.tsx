@@ -44,7 +44,7 @@ function Login(){
                 const responseObj = await response.json()
                 console.log(responseObj)
                 if(responseObj.user.userId && responseObj.jwt){
-                    return TokenService.setToken(parseInt(responseObj.user.userId), responseObj.user.jwt)
+                    return TokenService.setToken(parseInt(responseObj.user.userId), responseObj.jwt)
                 }
             }
             const message = await response.text()
