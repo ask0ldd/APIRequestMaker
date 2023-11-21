@@ -12,7 +12,6 @@ function App() {
     URIVar: 'users',
     verb: 'get',
     postDatas : '',
-    token : ''
   }
 
   const [form, setForm] = useState<IForm>(formDefault)
@@ -50,22 +49,18 @@ function App() {
 
   async function sendRequest(form : IForm) : Promise<string> {
     const url = 'http://' + form.baseIP + ':' + form.port + '/' + form.URIVar
-    // console.log(form.postDatas)
 
     if(form.verb == "get") {
       try{
-        const token = TokenService.getToken()
-        console.log('token : ', token)
+        const token = TokenService.getToken().trim()
         const response = await fetch(url, {
           method: "GET",
-          mode: "cors",
-          headers: token == "" ? {
+          headers: token != '' ? {
+            "Accept" : "*/*",
             "Content-Type": "application/json",
-            // "Authorization": "Bearer "+ credentialsB64
-          }:{
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-          },
+            "Mode": 'no-cors',
+            "Authorization": `Bearer ${token}`
+          } : {}
         })
         if(response.ok) return(JSON.stringify(await response.json()))
         const message = await response.text()
@@ -80,17 +75,15 @@ function App() {
     if(form.verb == "post") {
       try{
         const token = TokenService.getToken()
-        console.log('token : ', token)
+        console.log('token : ', token.trim())
         const response = await fetch(url, {
           method: "POST",
           mode: "cors",
-          headers: token == "" ? {
+          headers: token != '' ? {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer "+ credentialsB64
-          }:{
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-          },
+            "mode": 'no-cors',
+            "Authorization": `Bearer ${token}`
+          } : {},
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
@@ -169,8 +162,6 @@ function App() {
               <option value="put">Update</option>
               <option value="delete">Delete</option>  
           </select>
-          <label htmlFor="token">Token</label>
-          <input name="token" onChange={handleChange} type="text" value={form.token}/>
           <label>Object</label>
           <textarea name="postDatas" onChange={handleChange}/>
           <input type="submit" value="Send this Request"/>
@@ -189,7 +180,6 @@ interface IForm{
   URIVar: string
   verb: string
   postDatas : string,
-  token : string,
 }
 
 interface IRequest{
