@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import '../style/Login.css'
+import '../services/TokenService'
+import TokenService from '../services/TokenService'
 
 function Login(){
 
-    const [credentials, setCredentials] = useState<Array<string>>(["", ""])
+    const [credentials, setCredentials] = useState<Array<string>>(["laurentgina@mail.com", "laurent"])
 
     function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void {
         if(event.currentTarget.name == "username") {
@@ -41,7 +43,9 @@ function Login(){
             if(response.ok) {
                 const responseObj = await response.json()
                 console.log(responseObj)
-                return(responseObj)
+                if(responseObj.user.userId && responseObj.jwt){
+                    return TokenService.setToken(parseInt(responseObj.user.userId), responseObj.user.jwt)
+                }
             }
             const message = await response.text()
             if(message) return console.log(message)
