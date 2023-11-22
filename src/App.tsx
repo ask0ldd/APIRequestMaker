@@ -52,20 +52,21 @@ function App() {
 
     if(form.verb == "get") {
       try{
+
         const token = TokenService.getToken().trim()
+        console.log('token :', token)
         const response = await fetch(url, {
           method: "GET",
           headers: token != '' ? {
-            "Accept" : "*/*",
             "Content-Type": "application/json",
-            "Mode": 'no-cors',
-            "Authorization": `Bearer ${token}`
-          } : {}
+            'Authorization': `Bearer ${token}`
+          } : {},
         })
         if(response.ok) return(JSON.stringify(await response.json()))
         const message = await response.text()
         if(message) return message
         return "This GET request failed."
+
       }catch(error){
         console.error(error)
         return "This GET request failed."
@@ -78,10 +79,8 @@ function App() {
         console.log('token : ', token.trim())
         const response = await fetch(url, {
           method: "POST",
-          mode: "cors",
           headers: token != '' ? {
             "Content-Type": "application/json",
-            "mode": 'no-cors',
             "Authorization": `Bearer ${token}`
           } : {},
           body: form.postDatas
@@ -98,12 +97,14 @@ function App() {
 
     if(form.verb == "put") {
       try{
+        const token = TokenService.getToken().trim()
+        console.log('token :', token)
         const response = await fetch(url, {
           method: "PUT",
-          mode: "cors",
-          headers: {
+          headers: token != '' ? {
             "Content-Type": "application/json",
-          },
+            'Authorization': `Bearer ${token}`
+          } : {},
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
@@ -118,12 +119,14 @@ function App() {
 
     if(form.verb == "delete"){
       try{
+        const token = TokenService.getToken().trim()
+        console.log('token :', token)
         const response = await fetch(url, {
           method: "DELETE",
-          mode: "cors",
-          headers: {
+          headers: token != '' ? {
             "Content-Type": "application/json",
-          },
+            'Authorization': `Bearer ${token}`
+          } : {},
         })
         if(response.ok) return("User deleted successfully.")
         return "Can't delete the request User."
