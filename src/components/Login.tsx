@@ -58,13 +58,18 @@ function Login(){
     }
 
     return(
-        <form className="loginContainer" onSubmit={handleSubmit}>
-          <label htmlFor='username'>Username</label>
-          <input name="username" onChange={handleChange} type="text" value={credentials[0]}/>
-          <label htmlFor="password">Password</label>
-          <input name="password" onChange={handleChange} type="text" value={credentials[1]}/>
-          <input type="submit" value="Receive your Token"/>
-        </form>
+        <section className="loginSection">
+            <form className="loginContainer" onSubmit={handleSubmit}>
+            <label htmlFor='username'>Username</label>
+            <input name="username" onChange={handleChange} type="text" value={credentials[0]}/>
+            <label htmlFor="password">Password</label>
+            <input name="password" onChange={handleChange} type="text" value={credentials[1]}/>
+            <input type="submit" value="Receive your Token"/>
+            </form>
+            <div className='tokenValue'>
+
+            </div>
+        </section>
     )
 }
 
