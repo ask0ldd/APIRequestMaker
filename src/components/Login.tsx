@@ -6,6 +6,7 @@ import TokenService from '../services/TokenService'
 function Login(){
 
     const [credentials, setCredentials] = useState<Array<string>>(["laurentgina@mail.com", "laurent"])
+    const [token, setToken] = useState<string>("")
 
     function handleChange(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void {
         if(event.currentTarget.name == "username") {
@@ -44,6 +45,7 @@ function Login(){
                 const responseObj = await response.json()
                 console.log(responseObj)
                 if(responseObj.user.userId && responseObj.jwt){
+                    setToken(responseObj.jwt)
                     return TokenService.setToken(parseInt(responseObj.user.userId), responseObj.jwt)
                 }
             }
@@ -67,7 +69,7 @@ function Login(){
             <input type="submit" value="Receive your Token"/>
             </form>
             <div className='tokenValue'>
-
+                {token != "" && token}
             </div>
         </section>
     )

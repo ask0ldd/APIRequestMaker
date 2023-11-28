@@ -58,7 +58,7 @@ function App() {
         const response = await fetch(url, {
           method: "GET",
           headers: token != '' ? {
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             'Authorization': `Bearer ${token}`
           } : {},
         })
@@ -82,7 +82,7 @@ function App() {
           headers: token != '' ? {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
-          } : {},
+          } : {"Content-Type": "application/json"},
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
@@ -104,7 +104,7 @@ function App() {
           headers: token != '' ? {
             "Content-Type": "application/json",
             'Authorization': `Bearer ${token}`
-          } : {},
+          } : {"Content-Type": "application/json"},
           body: form.postDatas
         })
         if(response.ok) return(JSON.stringify(await response.json()))
